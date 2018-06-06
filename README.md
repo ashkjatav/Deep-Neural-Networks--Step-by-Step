@@ -35,6 +35,7 @@ np.random.seed(1)
 
 ## Initialization
 <p> We write a helper function to initialize the parameters. <p>
+
 ```python
 def initialize_parameters_deep(layer_dims):
     np.random.seed(3)
