@@ -1,7 +1,7 @@
-# <pre>Deep Neural Network- Step by Step</pre>
+# <pre>Deep Neural Network- Step by Step<pre>
 
 ### Objectives
-<p> The outline of the assigment to build a deep neural network for a image classification task is as follows: <p>
+<p> The outline of the assigment is to build a deep neural network for a image classification task is as follows: <p>
 
 * Initialize the parameters for a L layer neural network.
 * Implement the forward propagation module to compute the activation functions for L layers. We calculate RELU function for L-1 layers and Sigmoid function for the Lth layer. We store Z as a cache to be used in while calculating gradients in the backward propagation.
@@ -190,4 +190,93 @@ def compute_cost(AL,Y):
     cost= np.squeeze(cost)
     assert(cost.shape==())
     return cost
+```
+
+### Backward Propagation Module
+
+Similar to forward propagation module, we will create helper functions to caclulate gradients of the Loss functions with respect to the parameters.
+We will achieve this in 3 steps:
+- LINEAR backward
+- LINEAR -> ACTIVATION backward where ACTIVATION computes the derivative of either the ReLU or sigmoid activation
+- [LINEAR -> RELU] **X** (L-1) -> LINEAR -> SIGMOID backward (whole model)
+
+For a layer l, linear part is *Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l-1]</sup> +b<sup>[l]</sup>*. Suppose we have already calculated the derivative *dZ<sup>[l]</sup>*.
+The three outputs(*dW<sup>[l]</sup>*, *db<sup>[l]</sup>*, *dA<sup>[l]</sup>*) are calculated using *dZ<sup>[l]</sup>* using the following formulas:
+1. <a href="https://www.codecogs.com/eqnedit.php?latex=dW^{[l]}=&space;\frac{dL}{dW^{[l]}}=&space;\frac{1}{m}dZ^{[l]}A^{[l-1]T}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?dW^{[l]}=&space;\frac{dL}{dW^{[l]}}=&space;\frac{1}{m}dZ^{[l]}A^{[l-1]T}" title="dW^{[l]}= \frac{dL}{dW^{[l]}}= \frac{1}{m}dZ^{[l]}A^{[l-1]T}" /></a>
+2. <a href="https://www.codecogs.com/eqnedit.php?latex=db^{[l]}=&space;\frac{dL}{db^{[l]}}=&space;\frac{1}{m}\sum_{i=1}^{m}dZ^{[l]}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?db^{[l]}=&space;\frac{dL}{db^{[l]}}=&space;\frac{1}{m}\sum_{i=1}^{m}dZ^{[l]}" title="db^{[l]}= \frac{dL}{db^{[l]}}= \frac{1}{m}\sum_{i=1}^{m}dZ^{[l]}" /></a>
+3. <a href="https://www.codecogs.com/eqnedit.php?latex=dA^{[l-1]}=&space;\frac{dL}{dA^{[l-1]}}=&space;W^{[l]T}dZ^{[l]}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?dA^{[l-1]}=&space;\frac{dL}{dA^{[l-1]}}=&space;W^{[l]T}dZ^{[l]}" title="dA^{[l-1]}= \frac{dL}{dA^{[l-1]}}= W^{[l]T}dZ^{[l]}" /></a>
+
+```python
+def linear_backward(dZ, cache):
+    A_prev, W,b= cache
+    m= A_prev.shape[1]
+    dW= (1/m)*np.dot(dZ, A_prev.T)
+    db= (1/m)*np.sum(dZ, axis=1, keepdims=True)
+    dA_prev= np.dot(W.T, dZ)
+    
+    assert(dA_prev.shape==A_prev.shape)
+    assert (dW.shape == W.shape)
+    assert (db.shape == b.shape)
+    
+    return dA_prev, dW, db
+```
+
+In order to calculate the gradients of the Loss function w.r.t parameters, we first need to calculate *dZ<sup>[l]</sup>*. We will two backward functions `sigmoid_backward` and `relu_backward` which calculates *dZ<sup>[l]</sup>* as <a href="https://www.codecogs.com/eqnedit.php?latex=dZ^{[l]}=&space;dA^{[l]}\ast&space;{g}'(Z^{[l]})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?dZ^{[l]}=&space;dA^{[l]}\ast&space;{g}'(Z^{[l]})" title="dZ^{[l]}= dA^{[l]}\ast {g}'(Z^{[l]})" /></a>.
+
+```python
+def relu_backward(dA, cache):
+    """
+    Implement the backward propagation for a single RELU unit.
+    Arguments:
+    dA -- post-activation gradient, of any shape
+    cache -- 'Z' where we store for computing backward propagation efficiently
+    Returns:
+    dZ -- Gradient of the cost with respect to Z
+    """
+    
+    Z = cache
+    dZ = np.array(dA, copy=True) # just converting dz to a correct object.
+    
+    # When z <= 0, you should set dz to 0 as well. 
+    dZ[Z <= 0] = 0
+    
+    assert (dZ.shape == Z.shape)
+    
+    return dZ
+```
+
+```python
+def sigmoid_backward(dA, cache):
+    """
+    Implement the backward propagation for a single SIGMOID unit.
+    Arguments:
+    dA -- post-activation gradient, of any shape
+    cache -- 'Z' where we store for computing backward propagation efficiently
+    Returns:
+    dZ -- Gradient of the cost with respect to Z
+    """
+    
+    Z = cache
+    
+    s = 1/(1+np.exp(-Z))
+    dZ = dA * s * (1-s)
+    
+    assert (dZ.shape == Z.shape)
+    
+    return dZ
+```
+
+Now we can implement these functions with the linear backward function created before to calculate *dW<sup>[l]</sup>*, *db<sup>[l]</sup>* and *dA<sup>[l]</sup>*
+
+```python
+def linear_activation_backward(dA, cache, activation):
+    linear_cache, activation_cache= cache
+    
+    if activation=='relu':
+        dZ= relu_backward(dA, activation_cache)
+        dA_prev, dW, db= linear_backward(dZ, linear_cache)
+    elif activation=='sigmoid':
+        dZ= sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db= linear_backward(dZ, linear_cache)
+    return dA_prev, dW,db
 ```
