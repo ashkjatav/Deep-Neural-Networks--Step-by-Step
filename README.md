@@ -180,4 +180,15 @@ def L_model_forward(X, parameters):
 
 Now we calculate the cross-entropy loss, so as to check whether our model is learning or not. Our objective is to minimize the cost by optimizing the parameters `W` and `b` using gradient descent.
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" title="J= -\frac{1}{m}\sum (y^{(i)}log(a^{[L](i)})+(1-y^{(i)})log(1-a^{[L](i)}))" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=Cost=&space;J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Cost=&space;J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" title="Cost= J= -\frac{1}{m}\sum (y^{(i)}log(a^{[L](i)})+(1-y^{(i)})log(1-a^{[L](i)}))" /></a>
+
+```python
+def compute_cost(AL,Y):
+    m= Y.shape[1]
+    
+    cost= -(1/m)*np.sum(Y*np.log(AL)+(1-Y)*np.log(1-AL))
+    cost= np.squeeze(cost)
+    assert(cost.shape==())
+    return cost
+```
+
