@@ -33,7 +33,7 @@ plt.rcParams['image.cmap'] = 'gray'
 np.random.seed(1)
 ```
 
-## Initialization
+### Initialization
 We write a helper function to initialize the parameters. 
 We store *n<sup>l</sup>*, the number of units in different layers in a variable `layer_dims`. For example, `layer_dims`= [2,4,1] is a neural network with 2 inputs, one hidden layer with 4 neurons, one output layer with one output unit.
 
@@ -59,7 +59,7 @@ After initializing the parameters, we will now do the forward propagation module
 
 - LINEAR
 - LINEAR -> ACTIVATION where ACTIVATION will be either ReLU or Sigmoid. 
-- [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID (whole model)
+- [LINEAR -> RELU] *\times* (L-1) -> LINEAR -> SIGMOID (whole model)
 
 The linear forward module (vectorized over all the examples) computes the following equations:
 
