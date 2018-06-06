@@ -152,9 +152,9 @@ def linear_activation_forward(A_prev,W,b,activation):
     return A, cache
 ```
 
-Now, we will create a function which implements the function `linear_activation_forward` created in the last step with `RELU` *L-1* times and with `Sigmoid` one time for the *L<sup>th</sup> layer.
+Now, we will create a function which implements the function `linear_activation_forward` created in the last step with `RELU` *L-1* times and with `Sigmoid` one time for the *L<sup>th</sup>* layer.
 
-In the code below, the variable `AL` denotes activation function for the *L<sup>th</sup> layer.
+In the code below, the variable `AL` denotes activation function for the *L<sup>th</sup>* layer.
 
 ```python
 def L_model_forward(X, parameters):
@@ -177,3 +177,7 @@ def L_model_forward(X, parameters):
     
     return AL, caches
 ```
+
+Now we calculate the cross-entropy loss, so as to check whether our model is learning or not. Our objective is to minimize the cost by optimizing the parameters `W` and `b` using gradient descent.
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?J=&space;-\frac{1}{m}\sum&space;(y^{(i)}log(a^{[L](i)})&plus;(1-y^{(i)})log(1-a^{[L](i)}))" title="J= -\frac{1}{m}\sum (y^{(i)}log(a^{[L](i)})+(1-y^{(i)})log(1-a^{[L](i)}))" /></a>
