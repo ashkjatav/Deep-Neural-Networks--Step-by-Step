@@ -9,12 +9,12 @@
 * Update the parameters using gradient descent method.
 
 ## Notation
-- Superscript [*l*] denotes a quantity associated with the *l^{th}* layer. 
-    - Example: *a<sup>[L]</sup>* is the *L<sup>th</sup>* layer activation. *W^{[L]}* and *b^{[L]}* are the *L^{th}* layer parameters.
-- Superscript $*(i)* denotes a quantity associated with the *i^{th}* example. 
-    - Example: *x^{(i)}* is the *i^{th}* training example.
-- Lowerscript *i* denotes the *i^{th}* entry of a vector.
-    - Example: *a^{[l]}_i* denotes the *i^{th}* entry of the *l^{th}* layer's activations).
+- Superscript [*l*] denotes a quantity associated with the *l<sup>th</sup> layer. 
+    - Example: *a<sup>[L]</sup>* is the *L<sup>th</sup>* layer activation. *W<sup>{[L]}</sup> and *b<sup>{[L]}</sup>* are the *L<sup>{th}</sup>* layer parameters.
+- Superscript *(i)* denotes a quantity associated with the *i<sup>{th}</sup>* example. 
+    - Example: *x<sup>{(i)}</sup>* is the *i<sup>{th}</sup>* training example.
+- Lowerscript *i* denotes the *i<sup>{th}</sup>* entry of a vector.
+    - Example: *a<sup>{[l]}_i</sup>* denotes the *i<sup>{th}</sup>* entry of the *l<sup>{th}</sup>* layer's activations).
     
 ## Importing Libraries
 
