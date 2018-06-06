@@ -9,7 +9,7 @@
 * Update the parameters using gradient descent method.
 
 ### Notation
-- Superscript [*l*] denotes a quantity associated with the *l<sup>th</sup> layer. 
+- Superscript [*l*] denotes a quantity associated with the *l<sup>th</sup>* layer. 
     - Example: *a<sup>[L]</sup>* is the *L<sup>th</sup>* layer activation. *W<sup>[L]</sup>* and *b<sup>[L]</sup>* are the *L<sup>th</sup>* layer parameters.
 - Superscript *(i)* denotes a quantity associated with the *i<sup>th</sup>* example. 
     - Example: *x<sup>(i)</sup>* is the *i<sup>th</sup>* training example.
