@@ -59,10 +59,10 @@ After initializing the parameters, we will now do the forward propagation module
 
 - LINEAR
 - LINEAR -> ACTIVATION where ACTIVATION will be either ReLU or Sigmoid. 
-- [LINEAR -> RELU] *\times* (L-1) -> LINEAR -> SIGMOID (whole model)
+- [LINEAR -> RELU] **X** (L-1) -> LINEAR -> SIGMOID (whole model)
 
 The linear forward module (vectorized over all the examples) computes the following equations:
 
 *Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l-1]</sup> +b<sup>[l]</sup>**
 
-where *A<sup>[0]</sup> = X*. 
+where *A<sup>[0]</sup> = X. 
