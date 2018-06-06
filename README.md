@@ -19,9 +19,13 @@
     
 ### Importing Libraries
 ```python
+import time
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+import scipy
+from PIL import Image
+from scipy import ndimage
 %matplotlib inline
 plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
@@ -345,3 +349,74 @@ def update_parameters(parameters,grads, learning_rate):
         parameters['b'+str(l+1)]= parameters['b'+str(l+1)]-learning_rate*grads['db'+str(l+1)]
     return parameters
 ```
+
+### Prediction
+
+Creating a function to predict the results of a L-layered deep neural network
+
+```python
+def predict(X,y, parameters):
+    
+    """
+    This function is used to predict the results of a  L-layer neural network.
+    
+    Arguments:
+    X -- data set of examples you would like to label
+    parameters -- parameters of the trained model
+    
+    Returns:
+    p -- predictions for the given dataset X
+    """
+    
+    m= X.shape[1]
+    L= len(parameters)//2
+    p= np.zeros((1,m))
+    
+    probas, caches= L_model_forward(X, parameters)
+    
+    for i in range(0, probas.shape[1]):
+        if probas[0,i]>0.5:
+            p[0,i]=1
+        else:
+            p[0,i]=0
+    print("Accuracy: "  + str(np.sum((p == y)/m)))
+        
+    return p
+```
+
+We will use all the functions created above to classify images whether they are cat or not. The data is in `h5` format. We first create a function `load_dataset` to load the data and split it into training and testing. The dataset contains:
+
+- a training set of m_train images labelled as cat (1) or non-cat (0)
+- a test set of m_test images labelled as cat and non-cat
+- each image is of shape (num_px, num_px, 3) where 3 is for the 3 channels (RGB).
+
+```python
+def load_dataset():
+    train_dataset = h5py.File('datasets/train_catvnoncat.h5', "r")
+    train_set_x_orig = np.array(train_dataset["train_set_x"][:]) # your train set features
+    train_set_y_orig = np.array(train_dataset["train_set_y"][:]) # your train set labels
+
+    test_dataset = h5py.File('datasets/test_catvnoncat.h5', "r")
+    test_set_x_orig = np.array(test_dataset["test_set_x"][:]) # your test set features
+    test_set_y_orig = np.array(test_dataset["test_set_y"][:]) # your test set labels
+
+    classes = np.array(test_dataset["list_classes"][:]) # the list of classes
+    
+    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
+    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
+    
+    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
+```
+
+Let's load the data and check the image for a random index.
+
+```python
+train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
+
+index = 10
+plt.imshow(train_x_orig[index])
+print ("y = " + str(train_y[0,index]) + ". It's a " + classes[train_y[0,index]].decode("utf-8") +  " picture.")
+
+```
+
+![png](images/image1.png)
