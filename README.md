@@ -63,6 +63,20 @@ After initializing the parameters, we will now do the forward propagation module
 
 The linear forward module (vectorized over all the examples) computes the following equations:
 
-*Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l-1]</sup> +b<sup>[l]</sup>**
+*Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l-1]</sup> +b<sup>[l]</sup>*
 
-where *A<sup>[0]</sup> = X. 
+where *A<sup>[0]</sup> = X*. 
+
+```python
+def linear_forward(A,W,b):
+    Z= np.dot(W,A)+b
+    
+    assert(Z.shape==(W.shape[0],A.shape[1]))
+    
+    cache= (A,W,b)
+    
+    return Z, cache
+```
+#### - Linear Activation Forward
+We use two activation functions:
+-  **Sigmoid**: *\sigma(Z) = \sigma(W A + b) = \frac{1}{ 1 + e^{-(W A + b)}}*
