@@ -34,7 +34,9 @@ np.random.seed(1)
 ```
 
 ## Initialization
-<p> We write a helper function to initialize the parameters. <p>
+<p> We write a helper function to initialize the parameters. 
+    We store *n<sup>l</sup>*, the number of units in different layers in a variable `layer_dims`. For example, `layer_dims`= [2,4,1] is a neural network with 2 inputs, one hidden layer with 4 neurons, one output layer with one output unit.
+<p>
 
 ```python
 def initialize_parameters_deep(layer_dims):
