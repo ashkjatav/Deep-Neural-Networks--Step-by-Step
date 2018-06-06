@@ -52,3 +52,17 @@ def initialize_parameters_deep(layer_dims):
         
     return parameters
 ```
+###  Forward propagation module
+
+#### -Linear Forward 
+After initializing the parameters, we will now do the forward propagation module. We will implement some basic functions that we will use later when implementing the model. We will complete three functions in this order:
+
+- LINEAR
+- LINEAR -> ACTIVATION where ACTIVATION will be either ReLU or Sigmoid. 
+- [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID (whole model)
+
+The linear forward module (vectorized over all the examples) computes the following equations:
+
+*Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l-1]</sup> +b<sup>[l]</sup>**
+
+where *A<sup>[0]</sup> = X*. 
