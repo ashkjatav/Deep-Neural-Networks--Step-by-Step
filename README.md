@@ -1,4 +1,5 @@
-# Deep-Neural-Networks--Step-by-Step
+# Deep&npsp;Neural&npsp;Network-&npsp;Step&npsp;by&npsp;Step
+
 ### Objectives
 <p> The outline of the assigment to build a deep neural network for a image classification task is as follows: <p>
 
@@ -17,6 +18,20 @@
     - Example: *a<sup>[l]_i</sup>* denotes the *i<sup>th</sup>* entry of the *l<sup>th</sup>* layer's activations.
     
 ### Importing Libraries
+```python
+import numpy as np
+import h5py
+import matplotlib.pyplot as plt
+%matplotlib inline
+plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
+plt.rcParams['image.interpolation'] = 'nearest'
+plt.rcParams['image.cmap'] = 'gray'
+
+%load_ext autoreload
+%autoreload 2
+
+np.random.seed(1)
+```
 
 ## Initialization
 <p> We write a helper function to initialize the parameters. <p>
