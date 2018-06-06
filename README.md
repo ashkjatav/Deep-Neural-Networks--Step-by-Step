@@ -9,7 +9,7 @@
 * Update the parameters using gradient descent method.
 
 ## Notation
-- Superscript $[l]$ denotes a quantity associated with the $l^{th}$ layer. 
+- Superscript [l] denotes a quantity associated with the $l^{th}$ layer. 
     - Example: $a^{[L]}$ is the $L^{th}$ layer activation. $W^{[L]}$ and $b^{[L]}$ are the $L^{th}$ layer parameters.
 - Superscript $(i)$ denotes a quantity associated with the $i^{th}$ example. 
     - Example: $x^{(i)}$ is the $i^{th}$ training example.
