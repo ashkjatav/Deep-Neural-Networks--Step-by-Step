@@ -1,4 +1,4 @@
-# <pre>Deep Neural Network- Step by Step<pre>
+# <pre>Deep Neural Network- Step by Step</pre>
 
 ### Objectives
 <p> The outline of the assigment is to build a deep neural network for a image classification task is as follows: <p>
@@ -459,7 +459,6 @@ test_x = test_x_flatten/255.
     
 We will create a function `L_layer_model` using all the helper functions created above to predict whether an image is of a cat or not.
 
-Let's create a 5 layer model. Take `layers_dims= [12288, 20, 7, 5, 1]`
 
 ```python
 def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 3000, print_cost=False):#lr was 0.009
@@ -524,6 +523,7 @@ def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 30
     
     return parameters
 ```
+Let's create a 5 layer model. Take `layers_dims= [12288, 20, 7, 5, 1]`
 
 ```python
 parameters = L_layer_model(train_x, train_y, layers_dims, num_iterations = 2500, print_cost = True)
