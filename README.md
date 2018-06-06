@@ -266,7 +266,7 @@ def sigmoid_backward(dA, cache):
     return dZ
 ```
 
-Now we can implement these functions with the linear backward function created before to calculate *dW<sup>[l]</sup>*, *db<sup>[l]</sup>* and *dA<sup>[l]</sup>*
+Now we can implement these functions with the `linear_backward` function created before to calculate *dW<sup>[l]</sup>*, *db<sup>[l]</sup>* and *dA<sup>[l]</sup>*
 
 ```python
 def linear_activation_backward(dA, cache, activation):
@@ -279,4 +279,69 @@ def linear_activation_backward(dA, cache, activation):
         dZ= sigmoid_backward(dA, activation_cache)
         dA_prev, dW, db= linear_backward(dZ, linear_cache)
     return dA_prev, dW,db
+```
+
+Now we will implement backward function for the whole network. Remember, we stored (X,W,b,Z) in a value cache when we implemented `L_model_forward`. We will use these cache values while iterating through all hidden layers starting from layer L. 
+For Layer l, we know that <a href="https://www.codecogs.com/eqnedit.php?latex=A^{[L]}=&space;\sigma(Z^{[L]})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?A^{[L]}=&space;\sigma(Z^{[L]})" title="A^{[L]}= \sigma(Z^{[L]})" /></a>. We need to calculate dA<sup>[L]</sup> which we will feed in the back propagation module for the whole network. dA<sup>[L]</sup> is calculated as
+dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL)) # derivative of cost with respect to AL.
+We will store dA, dW, db in a grads dictionary.
+
+```python
+def L_model_backward(AL, Y, caches):
+    """
+    Implement the backward propagation for the [LINEAR->RELU] * (L-1) -> LINEAR -> SIGMOID group
+    
+    Arguments:
+    AL -- probability vector, output of the forward propagation (L_model_forward())
+    Y -- true "label" vector (containing 0 if non-cat, 1 if cat)
+    caches -- list of caches containing:
+                every cache of linear_activation_forward() with "relu" (it's caches[l], for l in range(L-1) i.e l = 0...L-2)
+                the cache of linear_activation_forward() with "sigmoid" (it's caches[L-1])
+    
+    Returns:
+    grads -- A dictionary with the gradients
+             grads["dA" + str(l)] = ... 
+             grads["dW" + str(l)] = ...
+             grads["db" + str(l)] = ... 
+    """
+    grads={}
+    L= len(caches)
+    m= AL.shape[1]
+    Y.reshape(AL.shape)
+    
+    dAL= - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL)) # derivative of cost with respect to AL
+    
+    # Lth layer (SIGMOID -> LINEAR) gradients. Inputs: "AL, Y, caches". Outputs: "grads["dAL"], grads["dWL"], grads["dbL"]
+    current_cache= caches[-1]
+    grads['dA'+str(L)], grads['dW'+str(L)], grads['db'+str(L)]= linear_activation_backward(dAL, current_cache, 
+                                                                                           activation='sigmoid')
+    
+    for l in reversed(range(L-1)):
+        # lth layer: (RELU -> LINEAR) gradients.
+        # Inputs: "grads["dA" + str(l + 2)], caches". Outputs: "grads["dA" + str(l + 1)] , grads["dW" + str(l + 1)] , grads["db" + str(l + 1)] 
+        
+        current_cache= caches[l]
+        dA_prev_temp, dW_temp, db_temp= linear_activation_backward(grads['dA'+str(l+2)], current_cache, 
+                                                                  activation= 'relu')
+        grads['dA'+str(l)]= dA_prev_temp
+        grads['dW'+str(l+1)]= dW_temp
+        grads['db'+str(l+1)]= db_temp
+    
+    return grads
+```
+
+We will update the parameters of the model using gradient descent method as:
+1. <a href="https://www.codecogs.com/eqnedit.php?latex=W^{[l]}=&space;W^{[l]}-\alpha&space;dW^{[l]}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?W^{[l]}=&space;W^{[l]}-\alpha&space;dW^{[l]}" title="W^{[l]}= W^{[l]}-\alpha dW^{[l]}" /></a>
+2. <a href="https://www.codecogs.com/eqnedit.php?latex=b^{[l]}=&space;b^{[l]}-\alpha&space;db^{[l]}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?b^{[l]}=&space;b^{[l]}-\alpha&space;db^{[l]}" title="b^{[l]}= b^{[l]}-\alpha db^{[l]}" /></a>
+
+where <a href="https://www.codecogs.com/eqnedit.php?latex=\alpha" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\alpha" title="\alpha" /></a> is the learning rate.
+
+```python
+def update_parameters(parameters,grads, learning_rate):
+    
+    L= len(parameters)//2
+    for l in range(L):
+        parameters['W'+str(l+1)]= parameters['W'+str(l+1)]-learning_rate*grads['dW'+str(l+1)]
+        parameters['b'+str(l+1)]= parameters['b'+str(l+1)]-learning_rate*grads['db'+str(l+1)]
+    return parameters
 ```
