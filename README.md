@@ -1,4 +1,4 @@
-# Deep&npsp;Neural&npsp;Network-&npsp;Step&npsp;by&npsp;Step
+# <pre>Deep Neural Network- Step by Step<pre>
 
 ### Objectives
 <p> The outline of the assigment to build a deep neural network for a image classification task is as follows: <p>
