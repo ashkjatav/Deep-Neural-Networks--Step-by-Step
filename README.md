@@ -79,4 +79,4 @@ def linear_forward(A,W,b):
 ```
 #### - Linear Activation Forward
 We use two activation functions:
--  **Sigmoid**: *\sigma(Z) = \sigma(W A + b) = \frac{1}{ 1 + e^{-(W A + b)}}*
+-  **Sigmoid**: *&sigma(Z) = &sigma(W A + b) = \frac{1}{ 1 + e<sub>-(W A + b)</sub>}*
