@@ -39,7 +39,6 @@ We store *n<sup>l</sup>*, the number of units in different layers in a variable 
 
 ```python
 def initialize_parameters_deep(layer_dims):
-    np.random.seed(3)
     parameters={}
     L= len(layer_dims)
     
@@ -82,5 +81,22 @@ We use two activation functions:
 -  **Sigmoid**: 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\sigma&space;(Z)=&space;\sigma&space;(W&space;A&space;&plus;&space;b)=&space;\frac{1}{1&plus;e^-{(W&space;A&space;&plus;&space;b)}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma&space;(Z)=&space;\sigma&space;(W&space;A&space;&plus;&space;b)=&space;\frac{1}{1&plus;e^-{(W&space;A&space;&plus;&space;b)}}" title="\sigma (Z)= \sigma (W A + b)= \frac{1}{1+e^-{(W A + b)}}" /></a>
 
+```python
+def sigmoid(Z):
+    A = 1/(1+np.exp(-Z))
+    cache = Z
+    return A, cache
+```
 -  **ReLU**:
 <a href="https://www.codecogs.com/eqnedit.php?latex=A=&space;RELU(Z)=&space;max(0,Z)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?A=&space;RELU(Z)=&space;max(0,Z)" title="A= RELU(Z)= max(0,Z)" /></a>
+
+```python
+def relu(Z):
+    A = np.maximum(0,Z)
+    
+    assert(A.shape == Z.shape)
+    
+    cache = Z 
+    return A, cache
+```
+
