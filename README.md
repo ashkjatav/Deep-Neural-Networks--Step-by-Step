@@ -1,4 +1,4 @@
-# <pre>Deep Neural Network- Step by Step<pre>
+# <pre>Deep Neural Network- Step by Step</pre>
 
 ### Objectives
 <p> The outline of the assigment to build a deep neural network for a image classification task is as follows: <p>
@@ -191,10 +191,3 @@ def compute_cost(AL,Y):
     assert(cost.shape==())
     return cost
 ```
-
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
-
