@@ -152,3 +152,28 @@ def linear_activation_forward(A_prev,W,b,activation):
     return A, cache
 ```
 
+Now, we will create a function which implements the function `linear_activation_forward` created in the last step with `RELU` *L-1* times and with `Sigmoid` one time for the *L<sup>th</sup> layer.
+
+In the code below, the variable `AL` denotes activation function for the *L<sup>th</sup> layer.
+
+```python
+def L_model_forward(X, parameters):
+    caches=[]
+    A=X
+    L= len(parameters)//2
+    
+    for l in range(1,L):
+        A_prev=A
+        A,cache= linear_activation_forward(A_prev, parameters['W'+str(l)],
+                                          parameters['b'+str(l)],
+                                          activation='relu')
+        caches.append(cache)
+    AL, cache= linear_activation_forward(A, parameters['W'+str(L)],
+                                          parameters['b'+str(L)],
+                                          activation='sigmoid')
+    caches.append(cache)
+    
+    assert(AL.shape==(1, X.shape[1]))
+    
+    return AL, caches
+```
