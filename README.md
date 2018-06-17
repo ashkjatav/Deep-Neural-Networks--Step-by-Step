@@ -411,7 +411,7 @@ def load_dataset():
 Let's load the data and check the image for a random index.
 
 ```python
-train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
+train_x_orig, train_y, test_x_orig, test_y, classes = load_dataset()
 
 index = 10
 plt.imshow(train_x_orig[index])
